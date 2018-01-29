@@ -1,0 +1,123 @@
+Sub Homework()
+
+Dim row As Integer
+row = 2
+Dim StockVolume As Double
+
+
+Dim dates As String
+Dim YearStart As Double
+Dim YearEnd As Double
+Dim YeatChange As Double
+Dim PercentChange As Double
+Dim MaxVolume As Double
+Dim Max As Double
+Dim Min As Double
+
+
+'Dim WS As Worksheet
+
+'For Each WS In Sheets
+    ''WS.Activate
+    
+'Write the names of columns
+Range("I1").Value = "Ticker"
+Range("J1").Value = "Yearly Change"
+Range("K1").Value = "Percent Changed"
+Range("L1").Value = "Total Stock Volume"
+Range("N2").Value = "Greatest % Increase"
+Range("N3").Value = "Greatest % Decrease"
+Range("N4").Value = "Greatest Total Volume"
+
+'Grab the ticker and the Total Stock  Volume
+For I = 2 To 200000
+
+    If Cells(I, 1).Value <> Cells(I + 1, 1).Value Then
+        Cells(row, 9).Value = Cells(I, 1).Value
+        Cells(row, 12).Value = StockVolume
+        row = row + 1
+        StockVolume = Cells(I + 1, 7).Value
+    Else
+         StockVolume = StockVolume + Cells(I + 1, 7).Value
+        
+    End If
+
+Next I
+
+row = 2
+
+'Find the yearly change and percent change
+For j = 2 To 200000
+    
+    dates = Cells(j, 2).Value
+    datesValue = (Right(dates, 4))
+    
+    If datesValue = "0101" Then
+        YearStart = Cells(j, 6).Value
+        
+    ElseIf datesValue = "1230" Then
+        YearEnd = Cells(j, 6).Value
+        YearChange = (YearEnd - YearStart)
+        PercentChange = (YearChange / YearStart)
+        Cells(row, 10).Value = YearChange
+        Cells(row, 11).Value = PercentChange
+        row = row + 1
+    
+    ElseIf datesValue = "1231" Then
+        YearEnd = Cells(j, 6).Value
+        YearChange = (YearEnd - YearStart)
+        row = row - 1
+        Cells(row, 10).Value = YearChange
+        
+        row = row + 1
+    End If
+    
+    'Change the colors of the yearly change
+    If Cells(I, 10).Value > 0 Then
+        Cells(I, 10).Interior.Color = vbGreen
+    ElseIf Cells(I, 10).Value < 0 Then
+        Cells(I, 10).Interior.Color = vbRed
+    End If
+    
+Next j
+
+'formatting
+For k = 2 To 60000
+
+    Cells(k, 11).NumberFormat = "0.000%"
+
+    If Cells(k, 10).Value > 0 Then
+        Cells(k, 10).Interior.Color = vbGreen
+    ElseIf Cells(k, 10).Value < 0 Then
+        Cells(k, 10).Interior.Color = vbRed
+    
+    End If
+    
+Next k
+'Next WS
+
+'Hard Assignment
+For F = 2 To 2000
+
+
+    If Cells(F, 11).Value > Max Then
+        Max = Cells(F, 11).Value
+        Cells(2, 15).Value = Cells(F, 9).Value
+        Cells(2, 16).Value = Max
+        Cells(2, 16).NumberFormat = "0.000%"
+    ElseIf Cells(F, 11).Value < Min Then
+        Min = Cells(F, 11).Value
+        Cells(3, 15).Value = Cells(F, 9).Value
+        Cells(3, 16).Value = Min
+        Cells(3, 16).NumberFormat = "0.000%"
+    ElseIf Cells(F, 12).Value > MaxVolume Then
+        MaxVolume = Cells(F, 12).Value
+        Cells(4, 15).Value = Cells(F, 9).Value
+        Cells(4, 16).Value = MaxVolume
+    End If
+    
+
+Next F
+
+
+End Sub
