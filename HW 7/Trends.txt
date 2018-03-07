@@ -1,0 +1,3 @@
+1. The scores from the media outlets' Twitter are quite similar except for BBC. BBC is the obvious outlier in both compound scores.
+2.  Fox is the only news source that is openly conservative and the only news source with a positive compound score. 
+3. BBC is the most negative but is also the second most positive media source. The trend shows that their tweets are the most volatile. 
